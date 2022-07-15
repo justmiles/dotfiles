@@ -1,0 +1,5 @@
+.local/share/oh-my-zsh:
+  type: archive
+  refreshPeriod: 168h
+  stripComponents: 1
+  url: https://github.com/ohmyzsh/ohmyzsh/archive/refs/heads/master.tar.gz
