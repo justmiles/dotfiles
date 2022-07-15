@@ -5,10 +5,16 @@ This is how I bootstrap my machines
 ## Usage
 
 1. Install `chezmoi`
+
+    ```bash
+    sh -c "$(curl -fsLS chezmoi.io/get)"
+    ```
+
 2. Initialize this repository with `chezmoi`.
 
     ```bash
-    alias chezmoi-public='chezmoi --source ~/.config/chezmoi-public --cache ~/.cache/chezmoi-public' git@github.com:justmiles/dotfiles.git
+    
+    chezmoi --source ~/.config/chezmoi-public --cache ~/.cache/chezmoi-public --refresh-externals init --apply https://github.com/justmiles/dotfiles.git
     ```
 
 2. Add the following to your .zshrc
@@ -18,10 +24,6 @@ This is how I bootstrap my machines
     autoload -U +X bashcompinit && bashcompinit
 
     for f in $(find ~/.bashrc.d -type f | sort -r ); do
-      source $f
-        if [ "$?" -gt "0" ]; then
-          echo "[$f] could not load - exit code $?"
-        fi
+        source $f || echo "[$f] could not load - exit code $?"
     done
     ```
-
