@@ -1,0 +1,103 @@
+#!/usr/bin/env bash
+
+function usage()
+{
+  local just_help=$1
+  local missing_required=$2
+  local invalid_argument=$3
+  local invalid_option=$4
+
+  local help="Usage: git-fix-emails [OPTIONS]
+
+Update author infor Githubs change-author-info script
+  https://help.github.com/articles/changing-author-info
+
+Example: $0 --old bob@gmail.com --new bob.lastname@mycompany.com --name Bob
+
+Options (* indicates it is required):
+    -o , --old      old email to be replace
+    -e , --new      new email address to replace old with
+    -n , --name      name to sign commits with
+"
+
+  if [ "$missing_required" != "" ]
+  then
+    echo "Missing required argument: $missing_required"
+  fi
+
+  if [ "$invalid_option" != "" ] && [ "$invalid_value" = "" ]
+  then
+    echo "Invalid option: $invalid_option"
+  elif [ "$invalid_value" != "" ]
+  then
+    echo "Invalid value: $invalid_value for option: --$invalid_option"
+  fi
+
+  echo -e "
+"
+  echo "$help"
+  return
+}
+
+REQ_ARGS=("old" "new" "name")
+
+# get command line arguments
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+key="$1"
+
+case $key in
+		-o|--old)
+		old="$2"
+		shift
+		shift
+		;;
+		-e|--new)
+		new="$2"
+		shift
+		shift
+		;;
+		-n|--name)
+		name="$2"
+		shift
+		shift
+		;;
+    *)
+    POSITIONAL+=("$1") # saves unknown option in array
+    shift
+    ;;
+esac
+done
+
+for i in "${REQ_ARGS[@]}"; do
+  # $i is the string of the variable name
+  # ${!i} is a parameter expression to get the value
+  # of the variable whose name is i.
+  req_var=${!i}
+  if [ "$req_var" = "" ]
+  then
+    usage "" "--$i"
+    exit
+  fi
+done
+
+git filter-branch --env-filter '
+OLD_EMAIL="$old"
+CORRECT_NAME="$name"
+CORRECT_EMAIL="$new"
+if [ "$GIT_COMMITTER_EMAIL" = "$OLD_EMAIL" ]
+then
+    export GIT_COMMITTER_NAME="$CORRECT_NAME"
+    export GIT_COMMITTER_EMAIL="$CORRECT_EMAIL"
+fi
+if [ "$GIT_AUTHOR_EMAIL" = "$OLD_EMAIL" ]
+then
+    export GIT_AUTHOR_NAME="$CORRECT_NAME"
+    export GIT_AUTHOR_EMAIL="$CORRECT_EMAIL"
+fi
+' --tag-name-filter cat -- --branches --tags
+
+if ! [ $? -gt 0 ]; then
+  echo -e "Run the following to push your changes. Ensure no open pull requests already exist.\n\tgit push --force --tags origin 'refs/heads/*'"
+fi

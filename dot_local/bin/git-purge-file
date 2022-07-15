@@ -1,0 +1,19 @@
+#!/bin/bash 
+set -e
+
+git filter-branch --force --index-filter "git rm --cached -r --ignore-unmatch $1" --prune-empty --tag-name-filter cat -- --all
+rm -rf .git/refs/original/
+git reflog expire --expire=now --all
+git gc --prune=now
+git gc --aggressive --prune=now
+
+cat <<'EOF'
+# Run the following to re-init a repo
+URL=`git remote get-url origin`
+git reset --hard origin/master
+rm -rf .git
+git init
+git remote add origin $URL
+git fetch --all
+git reset --hard origin/master
+EOF

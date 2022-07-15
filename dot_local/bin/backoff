@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+retries=${RETRIES-8}
+snooze=${SNOOZE-1}
+attempt=0
+exitCode=0
+
+while [[ $attempt < $retries ]]
+do
+  "$@"
+  exitCode=$?
+
+  if [[ $exitCode == 0 ]]; then
+    break
+  fi
+  attempt=$(( attempt + 1 ))
+  echo "[EXPONENTIAL BACKOFF] [$attempt/$retries retries] command failed. retrying in $snooze seconds" 1>&2
+  sleep $snooze
+  snooze=$(( snooze * 2 ))
+done
+
+if [[ $exitCode != 0 ]]
+then
+  echo "[EXPONENTIAL BACKOFF] no more retries! ($@)" 1>&2
+fi
+
+exit $exitCode

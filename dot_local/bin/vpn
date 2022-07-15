@@ -1,0 +1,18 @@
+#!/usr/bin/expect -f
+
+set profile [lindex $argv 0];
+set token [lindex $argv 1];
+set creds [lindex $argv 2];
+
+spawn openvpn \
+  --config $profile \
+  --auth-nocache \
+  --auth-user-pass $creds \
+  --script-security 2 \
+  --up /etc/openvpn/update-resolv-conf \
+  --down /etc/openvpn/update-resolv-conf
+
+expect "CHALLENGE:*"
+send -- "$token\n"
+send -- "\n"
+interact
