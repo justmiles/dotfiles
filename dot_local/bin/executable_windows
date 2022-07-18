@@ -1,0 +1,7 @@
+#!/bin/bash
+set -e
+
+WINDOWS_TITLE=$(grep -i windows /boot/grub/grub.cfg|cut -d"'" -f2)
+grub-reboot "$WINDOWS_TITLE"
+reboot
+
