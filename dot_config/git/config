@@ -6,7 +6,6 @@
   fsize = !git ls-tree -r -t -l --full-name HEAD | sort -rn -k 4 | less
   current-branch = !git branch | grep '*' | cut -d ' ' -f2
   flatten = !git reset $(git merge-base master $(git current-branch)) && git add -A
-  mine = "!git filter-branch -f --env-filter \"GIT_AUTHOR_NAME='Miles Maddox'; GIT_AUTHOR_EMAIL='j.milesmaddox@gmail.com'; GIT_COMMITTER_NAME='Miles Maddox'; GIT_COMMITTER_EMAIL='j.milesmaddox@gmail.com';\" HEAD"
   authors = !git log | grep Author | sed 's/Author: //'| sort | uniq -c | sort -h
   whoami = !echo "$(git config --global user.name) - $(git config --global user.email)"
   jira = !jira $(git current-branch)
