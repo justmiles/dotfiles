@@ -35,3 +35,8 @@ re-install software that is already installed. To update everything (or force re
 
 To run updates against individual bootstrapping scripts, run `FORCE_REINSTALL=y ~/.local/share/bootstrapping/SCRIPT.sh`
 
+To install these scripts _without_ bootstrapping, run
+
+```bash
+chezmoi --exclude scripts --source ~/.config/chezmoi-public --cache ~/.cache/chezmoi-public --refresh-externals init --apply https://github.com/justmiles/dotfiles.git
+```
