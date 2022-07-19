@@ -16,5 +16,5 @@ TODO: install the following packages
   - tfwitch
   - drone-cli
   - java?
-
+  - jira
 EOF
