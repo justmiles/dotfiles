@@ -1,4 +1,4 @@
-alias top='gotop -c solarized -m'
+alias top='gotop'
 alias ls="ls --color=auto"
 alias ll="ls -al"
 alias l="ls -lart"

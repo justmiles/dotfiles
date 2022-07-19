@@ -5,4 +5,4 @@ exit_if_installed textql
 
 bash -c "$(dirname $0)/go.sh"
 
-go install github.com/dinedal/textql/...@latest
+GOBIN=~/.local/bin go install -v github.com/dinedal/textql/...@latest

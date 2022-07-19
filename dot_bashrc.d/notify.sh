@@ -1,10 +1,16 @@
 #!/bin/bash
+
+
+
+
 function notify() {
+  [ -z "$PHONE_NUMBER" ] && echo "PHONE_NUMBER is required"
+
   echo "Waiting for pid $1 to exit"
   while :; do
     if ! ps $1 >/dev/null; then
       echo "Stopped"
-      aws sns publish --phone-number "+16152430637" --message "PID $1 has finished running\!"
+      aws sns publish --phone-number "+$PHONE_NUMBER" --message "PID $1 has finished running\!"
       break
     fi
     sleep 1
@@ -13,6 +19,8 @@ function notify() {
 
 function monitor() {
   CMD=$@
+
+  [ -z "$PHONE_NUMBER" ] && echo "PHONE_NUMBER is required"
 
   echo $CMD
   INVOCATIONS=0
@@ -23,7 +31,7 @@ function monitor() {
     if [ $CODE -eq 0 ]; then
       echo "Command Successful: $CMD"
       aws sns publish \
-        --phone-number "+16152430637" \
+        --phone-number "+$PHONE_NUMBER" \
         --message "Command Finished: $CMD"
       break
     fi
