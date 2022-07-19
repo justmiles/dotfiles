@@ -27,3 +27,11 @@ This is how I bootstrap my machines
         source $f || echo "[$f] could not load - exit code $?"
     done
     ```
+
+## Bootstrapping
+
+By default, `chezmoi apply` will bootstrap a machine with software. This is an idempotent process and won't
+re-install software that is already installed. To update everything (or force re-install) manually, run `FORCE_REINSTALL=y chezmoi apply`.
+
+To run updates against individual bootstrapping scripts, run `FORCE_REINSTALL=y ~/.local/share/bootstrapping/SCRIPT.sh`
+
