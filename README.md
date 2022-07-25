@@ -17,7 +17,7 @@ This is how I bootstrap my machines
     chezmoi --source ~/.config/chezmoi-public --cache ~/.cache/chezmoi-public --refresh-externals init --apply https://github.com/justmiles/dotfiles.git
     ```
 
-2. Add the following to your .zshrc
+3. Add the following to your .zshrc
 
     ```bash
     autoload -U +X compinit && compinit
@@ -27,6 +27,8 @@ This is how I bootstrap my machines
         source $f || echo "[$f] could not load - exit code $?"
     done
     ```
+
+To update the latest, just run `chezmoi-public update`
 
 ## Bootstrapping
 
