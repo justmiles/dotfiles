@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SCRIPT=$(basename $0)
+SCRIPT=$(basename $0 | sed 's/_/ /')
 
 exec > >(trap "" INT TERM; sed "s/^/${SCRIPT}: /")
 exec 2> >(trap "" INT TERM; sed "s/^/${SCRIPT}: (stderr) /" >&2)
