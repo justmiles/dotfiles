@@ -4,7 +4,6 @@ quake-height-percent=90
 quake-hide-lose-focus=false
 quake-specific-monitor=0
 quake-tab-position='top'
-quake-width-percent=30
 quake-window-position='top'
 tab-position='bottom'
 terminal-title-show-when-single=false
