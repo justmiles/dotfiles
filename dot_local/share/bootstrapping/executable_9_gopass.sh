@@ -12,5 +12,5 @@ exit_if_installed gopass
 set -e
 
 if [ "$OS" = "manjaro" ]; then
-  echo "TODO: install and configure gopass"
+  sudo pacman -S gopass
 fi
