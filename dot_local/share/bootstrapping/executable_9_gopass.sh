@@ -12,5 +12,7 @@ exit_if_installed gopass
 set -e
 
 if [ "$OS" = "manjaro" ]; then
-  sudo pacman -S gopass
+  sudo pacman -S gopass gopass-jsonapi
 fi
+
+yes | gopass-jsonapi configure --browser chrome --global=false --path ~/.config/gopass
