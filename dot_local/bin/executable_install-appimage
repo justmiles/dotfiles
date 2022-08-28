@@ -1,0 +1,50 @@
+#!/bin/bash
+
+APPIMAGE=$(readlink -f $1)
+APPNAME=$(echo $APPIMAGE | xargs basename | sed 's/\.appimage//gi' | sed -E 's@(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-((0|[1-9][0-9]*|[0-9]*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9][0-9]*|[0-9]*[a-zA-Z-][0-9a-zA-Z-]*))*))?(\+([0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*))?@@g' | sed 's/-$//g;s/^-//g')
+APPNAME_NOSPACE=$(echo $APPNAME | sed 's/ //g')
+
+DEST_APPIMAGE="$HOME/.local/share/applications/$APPNAME_NOSPACE.appimage"
+DEST_SHORTCUT="$HOME/.local/share/applications/$APPNAME_NOSPACE.desktop"
+DEST_ICON="$HOME/.local/share/icons/appimage/$APPNAME_NOSPACE.png"
+
+
+# create tmp working directory
+TMPDIR=$(mktemp -d)
+trap 'rm -rf -- "$TMPDIR"' EXIT
+
+cd $TMPDIR
+
+echo "Installing $APPIMAGE - $APPNAME"
+
+set -e
+
+# essure directories exist
+mkdir -p $HOME/.local/share/icons/appimage $HOME/.local/share/applications
+
+# install appimage
+cp --force "$APPIMAGE" $DEST_APPIMAGE
+
+# install icon
+"$DEST_APPIMAGE" --appimage-extract | grep "\.png$" | head -1 | xargs -I % cp -L "%" $DEST_ICON
+
+# install shortcut
+"$DEST_APPIMAGE" --appimage-extract '*.desktop' | head -1 | xargs -I % cp -L "%" $DEST_SHORTCUT
+
+if [ -f "$DEST_SHORTCUT" ]; then
+
+sed -i "s@Exec=.*@Exec=$DEST_APPIMAGE@g" "$DEST_SHORTCUT"
+sed -i "s@Icon=.*@Icon=$DEST_ICON@g" "$DEST_SHORTCUT"
+
+else
+
+cat << EOF > $DEST_SHORTCUT
+[Desktop Entry]
+Name=$APPNAME
+Exec=$DEST_APPIMAGE
+Icon=$DEST_ICON
+Terminal=false
+Type=Application
+EOF
+
+fi
