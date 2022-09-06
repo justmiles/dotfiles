@@ -1,0 +1,3 @@
+#!/bin/bash
+
+gopass grep "totp:" 2>/dev/null | sed 's/ matches//g' | grep -vi failed | grep -v "^Scanned" | grep -v "^$" > ~/.cache/2fa.cache
