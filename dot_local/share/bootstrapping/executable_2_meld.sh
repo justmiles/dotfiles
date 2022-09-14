@@ -12,5 +12,5 @@ exit_if_installed meld
 set -e
 
 if [ "$OS" = "manjaro" ]; then
-  sudo pacman -S meld
+  yes y | sudo pacman -S meld
 fi
