@@ -1,32 +1,36 @@
-# justmiles dotfiles
+# chrispruitt dotfiles
 
 This is how I bootstrap my machines
+
+## Credit
+
+Origintally forked from https://github.com/justmiles/dotfiles.git
 
 ## Usage
 
 1. Install `chezmoi`
 
-    ```bash
-    sh -c "$(curl -fsLS chezmoi.io/get)"
-    ```
+   ```bash
+   sh -c "$(curl -fsLS chezmoi.io/get)"
+   ```
 
 2. Initialize this repository with `chezmoi`.
 
-    ```bash
-    
-    chezmoi --source ~/.config/chezmoi-public --cache ~/.cache/chezmoi-public --refresh-externals init --apply https://github.com/justmiles/dotfiles.git
-    ```
+   ```bash
+
+   chezmoi --source ~/.config/chezmoi-public --cache ~/.cache/chezmoi-public --refresh-externals init --apply https://github.com/chrispruitt/dotfiles.git
+   ```
 
 3. Add the following to your .zshrc
 
-    ```bash
-    autoload -U +X compinit && compinit
-    autoload -U +X bashcompinit && bashcompinit
+   ```bash
+   autoload -U +X compinit && compinit
+   autoload -U +X bashcompinit && bashcompinit
 
-    for f in $(find ~/.bashrc.d -type f | sort -r ); do
-        source $f || echo "[$f] could not load - exit code $?"
-    done
-    ```
+   for f in $(find ~/.bashrc.d -type f | sort -r ); do
+       source $f || echo "[$f] could not load - exit code $?"
+   done
+   ```
 
 To update the latest, just run `chezmoi-public update`
 
@@ -40,5 +44,5 @@ To run updates against individual bootstrapping scripts, run `FORCE_REINSTALL=y 
 To install these scripts _without_ bootstrapping, run
 
 ```bash
-chezmoi --exclude scripts --source ~/.config/chezmoi-public --cache ~/.cache/chezmoi-public --refresh-externals init --apply https://github.com/justmiles/dotfiles.git
+chezmoi --exclude scripts --source ~/.config/chezmoi-public --cache ~/.cache/chezmoi-public --refresh-externals init --apply https://github.com/chrispruitt/dotfiles.git
 ```
