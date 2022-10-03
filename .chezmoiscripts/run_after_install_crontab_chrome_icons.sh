@@ -24,7 +24,6 @@ for file in $(ls $DIR/$PATTERN); do
   if grep -q "$CMD" $file >/dev/null 2>&1; then
     continue
   fi
-  echo "  changing file"
   sed -E -i 's!^(Exec=)(.*)$!\1\2'"${CMD}"'!g' $file
 done
 
