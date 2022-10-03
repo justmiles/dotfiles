@@ -19,17 +19,13 @@ if ! command -v xdotool > /dev/null; then
 fi
 
 for file in $(ls $DIR/$PATTERN); do
-  echo "$file:"
   ID=$(grep -m 1 Exec $file | sed -E 's/^(.*)--app-id=(\w*).*$/\2/g')
   CMD=" \&\& xdotool search --sync --classname $ID set_window --class $ID"
-  if grep -q "$CMD" $file; then
-    echo "  skip file"
+  if grep -q "$CMD" $file >/dev/null 2>&1; then
     continue
   fi
   echo "  changing file"
   sed -E -i 's!^(Exec=)(.*)$!\1\2'"${CMD}"'!g' $file
 done
 
-echo "updating desktop database"
 update-desktop-database $DIR
-echo "done"
