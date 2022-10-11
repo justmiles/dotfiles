@@ -44,5 +44,6 @@
         "uncoveredGutterStyle": "blockred"
     },
     "go.coverOnSingleTest": true,
-    "terminal.integrated.defaultProfile.linux": "zsh"
+    "terminal.integrated.defaultProfile.linux": "zsh",
+    "tabnine.experimentalAutoImports": true
 }
