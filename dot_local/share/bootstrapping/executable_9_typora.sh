@@ -3,7 +3,7 @@
 source "$(dirname $0)/_utility.sh"
 
 # limit this to desktop environments
-if [ ! "$XDG_CURRENT_DESKTOP" = "KDE" ]; then
+if [ ! "$XDG_CURRENT_DESKTOP" = "KDE" ] && [ ! "$XDG_CURRENT_DESKTOP"  = "GNOME" ]; then
   exit 0
 fi
 

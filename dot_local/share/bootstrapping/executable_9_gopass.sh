@@ -15,4 +15,8 @@ if [ "$OS" = "manjaro" ]; then
   sudo pacman -S gopass gopass-jsonapi
 fi
 
+if [ "$OS" = "fedora" ]; then
+    sudo yum install -y gopass gopass-jsonapi
+fi
+
 yes | gopass-jsonapi configure --browser chrome --global=false --path ~/.config/gopass

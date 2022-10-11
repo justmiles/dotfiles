@@ -15,3 +15,9 @@ if [ "$OS" = "manjaro" ]; then
   yes | sudo pacman -S tailscale
   sudo systemctl enable --now tailscaled
 fi
+
+if [ "$OS" = "fedora" ]; then
+  sudo dnf config-manager --add-repo https://pkgs.tailscale.com/stable/fedora/tailscale.repo
+  sudo dnf install tailscale -y
+  sudo systemctl enable --now tailscaled
+fi

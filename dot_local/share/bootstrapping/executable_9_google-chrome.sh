@@ -14,3 +14,7 @@ set -e
 if [ "$OS" = "manjaro" ]; then
   yes | yay -S google-chrome
 fi
+
+if [ "$OS" = "fedora" ]; then
+    sudo yum install -y google-chrome
+fi

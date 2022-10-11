@@ -9,7 +9,10 @@ if [ "$OS" = "manjaro" ]; then
     yes | sudo pacman -S docker
 fi
 
-sudo systemctl start docker.service
-sudo systemctl enable docker.service
+if [ "$OS" = "fedora" ]; then
+    sudo yum install -y docker
+fi
+
+sudo systemctl enable --now docker
 
 sudo usermod -aG docker $USER

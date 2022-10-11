@@ -8,3 +8,7 @@ set -e
 if [ "$OS" = "manjaro" ]; then
   yes | sudo pacman -S busybox
 fi
+
+if [ "$OS" = "fedora" ]; then
+  yes | sudo yum install -y busybox
+fi

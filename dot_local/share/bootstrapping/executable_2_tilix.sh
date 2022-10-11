@@ -8,3 +8,7 @@ set -e
 if [ "$OS" = "manjaro" ]; then
     yes | sudo pacman -Su tilix
 fi
+
+if [ "$OS" = "fedora" ]; then
+    sudo yum install -y tilix
+fi

@@ -14,3 +14,8 @@ set -e
 if [ "$OS" = "manjaro" ]; then
   yes y | sudo pacman -S meld
 fi
+
+
+if [ "$OS" = "fedora" ]; then
+  sudo yum install -y meld
+fi

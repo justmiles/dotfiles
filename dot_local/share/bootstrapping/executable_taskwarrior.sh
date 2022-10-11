@@ -8,3 +8,7 @@ set -e
 if [ "$OS" = "manjaro" ]; then
   yes | sudo pacman -Su task
 fi
+
+if [ "$OS" = "fedora" ]; then
+  sudo yum install -y task
+fi

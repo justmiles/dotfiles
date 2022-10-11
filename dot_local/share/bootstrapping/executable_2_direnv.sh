@@ -6,3 +6,7 @@ exit_if_installed direnv
 if [ "$OS" = "manjaro" ]; then
     yes | sudo pacman -Su direnv
 fi
+
+if [ "$OS" = "fedora" ]; then
+  sudo yum install -y direnv
+fi

@@ -14,3 +14,7 @@ if [ "$OS" = "manjaro" ]; then
     # session manager plugin
     sudo pamac install aws-session-manager-plugin
 fi
+
+if [ "$OS" = "fedora" ]; then
+  sudo yum install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm
+fi
