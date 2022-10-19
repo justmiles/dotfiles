@@ -35,6 +35,7 @@ _awsorg() {
 complete -F _awsorg awsorg
 
 awsorg-add() {
+  mkdir -p ~/.aws
   touch ~/.aws/${AWS_ORG_PREFIX}${1}
 }
 
