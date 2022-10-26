@@ -12,5 +12,5 @@ rm -rf aws awscliv2.zip
 
 if [ "$OS" = "manjaro" ]; then
     # session manager plugin
-    sudo pamac install aws-session-manager-plugin
+    yes | yay -S aws-session-manager-plugin
 fi

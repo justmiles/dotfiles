@@ -43,12 +43,16 @@ awssso-logout() {
   unset AWS_ACCOUNT
 }
 
-awssso-get-credentials() {
+_awssso-get-credentials() {
   SSO_ROLE_NAME=$(aws configure get sso_role_name)
   SSO_ACCOUNT_ID=$(aws configure get sso_account_id)
   SSO_START_URL=$(aws configure get sso_start_url)
   TOKEN=$(cat ~/.aws/sso/cache/*.json | jq -rs --arg SSO_START_URL "$SSO_START_URL" '.[] | select(.startUrl == $SSO_START_URL) | .accessToken')
-  AUTH=$(aws sso get-role-credentials --role-name "$SSO_ROLE_NAME" --account-id "$SSO_ACCOUNT_ID" --access-token "$TOKEN")
+  aws sso get-role-credentials --role-name "$SSO_ROLE_NAME" --account-id "$SSO_ACCOUNT_ID" --access-token "$TOKEN"
+}
+
+awssso-get-credentials() {
+  AUTH=$(_awssso-get-credentials)
 
   cat <<EOF
 export AWS_DEFAULT_REGION=$(aws configure get region)
@@ -56,7 +60,21 @@ export AWS_ACCESS_KEY_ID=$(echo "$AUTH" | jq -r '.roleCredentials.accessKeyId')
 export AWS_SECRET_ACCESS_KEY=$(echo "$AUTH" | jq -r '.roleCredentials.secretAccessKey')
 export AWS_SESSION_TOKEN=$(echo "$AUTH" | jq -r '.roleCredentials.sessionToken')
 EOF
+}
 
+awssso-print-credentials() {
+  AUTH=$(_awssso-get-credentials)
+
+  cat <<EOF
+AWS_DEFAULT_REGION=$(aws configure get region)
+AWS_ACCESS_KEY_ID=$(echo "$AUTH" | jq -r '.roleCredentials.accessKeyId')
+AWS_SECRET_ACCESS_KEY=$(echo "$AUTH" | jq -r '.roleCredentials.secretAccessKey')
+AWS_SESSION_TOKEN=$(echo "$AUTH" | jq -r '.roleCredentials.sessionToken')
+EOF
+}
+
+awssso-eval-credentials() {
+  eval "$(awssso-get-credentials)"
 }
 
 awssso-get-token() {
