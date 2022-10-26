@@ -19,6 +19,9 @@ echo "Installing $APPIMAGE - $APPNAME"
 
 set -e
 
+# make sure it's executable
+chmod +x "$APPIMAGE"
+
 # essure directories exist
 mkdir -p $HOME/.local/share/icons/appimage $HOME/.local/share/applications
 
