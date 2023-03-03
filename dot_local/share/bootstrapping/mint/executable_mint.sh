@@ -88,6 +88,10 @@ is_installed task || (
 # Install slack
 is_installed slack || (
     flatpak install -y flathub com.slack.Slack
+    cat << EOF > ~/.local/bin/slack
+/usr/bin/flatpak run --branch=stable --arch=x86_64 --command=slack --file-forwarding com.slack.Slack
+EOF
+    chmod +x ~/.local/bin/slack
 )
 
 # Install meld
