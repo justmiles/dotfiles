@@ -1,13 +1,18 @@
 #!/bin/bash
-# from: https://gist.github.com/ninogresenz/868d806723fe0ece9ad70f395f19619e
+
+source "$(dirname $0)/../_utility.sh"
+
+# limit this to desktop environments
+if [ ! "$XDG_CURRENT_DESKTOP" = "KDE" ]; then
+  exit 0
+fi
+
+exit_if_installed google-chrome-stable
 
 set -e
 
-OS=$(cat /etc/os-release | grep "^ID=" | awk -F '=' '{print $2}')
-
-# limit this to manjaro
-if [ ! "$OS" = "manjaro" ]; then
-  exit 0
+if [ "$OS" = "manjaro" ]; then
+  yes | yay -S google-chrome
 fi
 
 DIR="$HOME/.local/share/applications"

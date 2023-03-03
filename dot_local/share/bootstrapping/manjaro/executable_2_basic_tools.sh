@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source "$(dirname $0)/../_utility.sh"
-exit_if_installed vim
+exit_if_installed jq
 
 if [ "$OS" = "manjaro" ]; then
     yes | sudo pacman -Su mlocate xclip bash-completion vim unzip jq net-tools
