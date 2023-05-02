@@ -24,8 +24,10 @@ DEST_SHORTCUT="$HOME/.local/share/applications/typora.desktop"
 cat << EOF > $DEST_SHORTCUT
 [Desktop Entry]
 Name=Typora
-Exec=~/.local/share/typora/Typora
-Icon=~/.local/share/typora/resources/assets/tile/OD-LargeTile.scale.png
+Exec=$HOME/.local/share/typora/Typora
+Icon=$HOME/.local/share/typora/resources/assets/tile/OD-LargeTile.scale.png
 Terminal=false
 Type=Application
 EOF
+
+chmod +x $DEST_SHORTCUT

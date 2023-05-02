@@ -1,0 +1,7 @@
+[/]
+custom-list=['__dummy__', 'custom0']
+
+[custom-keybindings/custom0]
+binding=['F12']
+command='tilix --quake'
+name='Tilix'
