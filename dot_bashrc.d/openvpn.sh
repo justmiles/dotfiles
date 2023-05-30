@@ -8,12 +8,11 @@ function do_vpn() {
     return 1
   fi
 
-  MFA=$(2fa "$OPENVPN_PASS")
+  MFA=$(gopass totp --password "$OPENVPN_MFA")
   CREDS=$(mktemp -p ~/)
   chmod 600 $CREDS
   gopass show "$OPENVPN_PASS" >$CREDS
 
   bash -c "sleep 30; rm -rf $CREDS" &
   sudo ~/.bin/vpn $HOME/.openvpn/$OPENVPN_PROFILE.ovpn $MFA $CREDS
-
 }
