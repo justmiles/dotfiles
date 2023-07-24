@@ -11,9 +11,11 @@ for f in "$APP_DIR"/*; do
 done
 
 # link new ones
-for f in "$NIX_PROFILE"/Applications/*; do
+for f in "${NIX_PROFILE}"/share/applications/*; do
     app_name="$(basename "$f")"
     if [ ! -e "$APP_DIR/$app_name" ]; then
         ln -s "$f" "$APP_DIR"/
     fi
 done
+
+
