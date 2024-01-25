@@ -17,3 +17,7 @@ password() {
 slack-kde-login() {
   while sleep .1; do ps aux | grep "kde-open5 slack://" | grep -v grep | awk '{print $12}' | while read link; do slack -s --enable-crashpad "$link"; done ; done
 }
+
+port(){
+  shuf -i 2000-65000 -n 1
+}
