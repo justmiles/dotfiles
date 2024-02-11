@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Only set crontab if crontab exists
+type -p crontab>/dev/null || exit 0
+
 # * * * * * "command to be executed"
 # - - - - -
 # | | | | |

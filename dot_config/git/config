@@ -1,7 +1,7 @@
 [alias]
   purge-branches = !git branch --merged | grep -v master | xargs -I % git branch -d %
   tags = !git tag -l | cat
-  lazy-commit = "!git commit -m \"`git status -s --untracked-files=no`\""
+  lazy-commit = "!codegpt commit"
   lazy-push = "!git add --all && git commit -m \"`git status -s`\" && git push"
   fsize = !git ls-tree -r -t -l --full-name HEAD | sort -rn -k 4 | less
   current-branch = !git branch | grep '*' | cut -d ' ' -f2
