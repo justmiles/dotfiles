@@ -1,6 +1,6 @@
 
 # only run this for zsh
-if [ "$(ps -p $$ -ocomm=)" "==" "zsh" ]; then; return; fi
+if [ ! "$(ps -p $$ -ocomm=)" "==" "zsh" ]; then return; fi
 
 # only run this if hishtory is installed
 if [ ! -x "/etc/profiles/per-user/$USER/bin/hishtory" ]; then return; fi
