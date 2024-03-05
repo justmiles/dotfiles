@@ -1,8 +1,13 @@
 # This script should be sourced inside of .bashrc to integrate bash with hishtory
 
+# only run this for bash
+if [ "$(ps -p $$ -ocomm=)" "==" "bash" ]; then; return; fi
+
+# only run this if hishtory is installed
+if [ -x "/etc/profiles/per-user/$USER/bin/hishtory" ]; then return; fi
+
 # Include guard. This file is sourced in multiple places, but we want it to only execute once. 
 # This trick is from https://stackoverflow.com/questions/7518584/is-there-any-mechanism-in-shell-script-alike-include-guard-in-c
-if [ -x "/etc/profiles/per-user/$USER/bin/hishtory" ]; then return; fi
 if [ -n "$__hishtory_bash_config_sourced" ]; then return; fi
 __hishtory_bash_config_sourced=true
 
