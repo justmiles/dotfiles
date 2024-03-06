@@ -5,6 +5,9 @@ if [ ! "$(ps -p $$ -ocomm=)" "==" "zsh" ]; then return; fi
 # only run this if hishtory is installed
 if [ ! -x "/etc/profiles/per-user/$USER/bin/hishtory" ]; then return; fi
 
+# only run this if hishtory is configured
+if [ ! -d "$HOME/.hishtory" ]; then return; fi
+
 autoload -U add-zsh-hook
 add-zsh-hook zshaddhistory _hishtory_add
 add-zsh-hook precmd _hishtory_precmd
