@@ -13,7 +13,6 @@ func nomad-varsync-push() {
   find nomad-vars -type f | sed 's/^[^/]*\///' | while read file; do
     namespace="${file%%/*}"
     key="${${file#*/}%.*}"
-    echo "namespace: ${namespace} key: ${key}"
     ls -al "$PWD/nomad-vars/$namespace/${key}.hcl"
     cat "$PWD/nomad-vars/$namespace/${key}.hcl" | nomad var put -namespace "$namespace" -in hcl "$key" -
   done
