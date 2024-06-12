@@ -1,0 +1,82 @@
+#!/bin/bash
+
+FORMAT=json
+
+# Function to display usage information
+usage() {
+    echo "Usage: $0 {push|pull} [--store <path>]"
+    exit 1
+}
+
+# Check for at least one argument
+if [ $# -lt 1 ]; then
+    usage
+fi
+
+# Default store path is the current working directory
+LOCAL_STORE_PATH="$PWD"
+
+# Parse arguments
+COMMAND="$1"
+shift # Shift after getting the command
+
+# Handle the optional --store argument
+while [ $# -gt 0 ]; do
+    case "$1" in
+        --store)
+            if [ -z "$2" ]; then
+                echo "Error: --store requires a path"
+                exit 1
+            fi
+            LOCAL_STORE_PATH="$2"
+            shift 2
+            ;;
+        *)
+            usage
+            ;;
+    esac
+done
+
+# Functions
+
+difff() {
+  TMPDIR=$(mktemp -d)
+  LOCAL_STORE_PATH=$TMPDIR pull >/dev/null
+  diff -B -I "Set by server" -r --new-file --minimal "$TMPDIR" "$LOCAL_STORE_PATH"
+  rm -rf $TMPDIR
+}
+
+pull() {
+  nomad namespace list -json | jq -r '.[].Name' | while read namespace; do
+    nomad var list -namespace "$namespace" -out json | jq -r '.[].Path' | while read key; do
+      mkdir -p $(dirname "$LOCAL_STORE_PATH/$namespace/$key")
+      echo "[$namespace] $key -> $LOCAL_STORE_PATH/$namespace/${key}.$FORMAT"
+      nomad var get -namespace "$namespace" -out $FORMAT "$key" > "$LOCAL_STORE_PATH/$namespace/${key}.$FORMAT"
+    done
+  done
+}
+
+push() {
+  find nomad-vars -type f | sed 's/^[^/]*\///' | while read file; do
+    namespace="${file%%/*}"
+    key="${${file#*/}%.*}"
+    ls -al "$LOCAL_STORE_PATH/$namespace/${key}.$FORMAT"
+    cat "$LOCAL_STORE_PATH/$namespace/${key}.$FORMAT" | nomad var put -namespace "$namespace" -in $FORMAT "$key" -
+  done
+}
+
+# Ensure a valid command was provided
+case "$COMMAND" in
+    push)
+        push
+        ;;
+    pull)
+        pull
+        ;;
+    diff)
+        difff
+        ;;
+    *)
+        usage
+        ;;
+esac
