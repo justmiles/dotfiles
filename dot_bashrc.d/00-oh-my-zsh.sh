@@ -1,3 +1,14 @@
+
+# only run if this is a zsh shell
+if [ -z "${ZSH_VERSION-}" ]; then
+  return 0 2>/dev/null || exit 0
+fi
+
+# Early in the sourced script
+if [ -z "${ZSH_VERSION-}" ]; then
+  return 0 2>/dev/null || exit 0
+fi
+
 # zsh theme and settings
 ENABLE_CORRECTION="true"
 DISABLE_UNTRACKED_FILES_DIRTY="true"
