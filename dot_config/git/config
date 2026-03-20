@@ -4,8 +4,9 @@
   lazy-commit = "!codegpt commit"
   lazy-push = "!git add --all && git commit -m \"`git status -s`\" && git push"
   fsize = !git ls-tree -r -t -l --full-name HEAD | sort -rn -k 4 | less
+  main-branch = !git branch | grep -o '\\(main\\|master\\)'
   current-branch = !git branch | grep '*' | cut -d ' ' -f2
-  flatten = !git reset $(git merge-base master $(git current-branch)) && git add -A
+  flatten = !git reset $(git merge-base $(git main-branch) $(git current-branch)) && git add -A
   authors = !git log | grep Author | sed 's/Author: //'| sort | uniq -c | sort -h
   whoami = !echo "$(git config --global user.name) - $(git config --global user.email)"
   jira = !jira $(git current-branch)

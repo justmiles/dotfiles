@@ -36,7 +36,16 @@ function genSSHConf {
   truncate -s 0 $CONF
   
   for config in $(ls ~/.ssh/configs); do
+    echo "##" >> $CONF
+    echo "# BEGIN $config SSH Config" >> $CONF
+    echo "##" >> $CONF
+    echo "" >> $CONF
     cat ~/.ssh/configs/$config >> $CONF
+    echo "" >> $CONF
+    echo "##" >> $CONF
+    echo "# END $config" >> $CONF
+    echo "##" >> $CONF
+    echo "" >> $CONF
   done
   
   chmod 600 $CONF
